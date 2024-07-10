@@ -13,7 +13,7 @@ type InputProps = {
 function Input({ children, variant = 'primary' }: InputProps) {
   return (
     <View
-      className={clsx('w-full flex-row items-center gap-2', {
+      className={clsx('w-full h-16 flex-row items-center gap-2', {
         'h-14 px-4 rounded-lg border border-zinc-800': variant !== 'primary',
         'border-zinc-950': variant !== 'secondary',
         'border-zinc-900': variant !== 'tertiary',
