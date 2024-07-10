@@ -1,8 +1,13 @@
 import { Input } from '@/components/input'
 import React from 'react'
 import { Image, Text, View } from 'react-native'
-import { MapPin, Calendar as IconCalendar } from 'lucide-react-native'
+import {
+  MapPin,
+  Calendar as IconCalendar,
+  Settings2,
+} from 'lucide-react-native'
 import { colors } from '@/styles/colors'
+import { Button } from '@/components/button'
 
 const Index: React.FC = () => {
   return (
@@ -29,7 +34,12 @@ const Index: React.FC = () => {
           <Input.Field placeholder="Para onde?" />
         </Input>
 
-        <View className="border-b py-3 border-zinc-800"></View>
+        <View className="border-b py-3 border-zinc-800">
+          <Button variant="secondary">
+            <Button.Title>Alterar local/data</Button.Title>
+            <Settings2 color={colors.zinc[200]} size={20} />
+          </Button>
+        </View>
       </View>
     </View>
   )
