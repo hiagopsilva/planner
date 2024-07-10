@@ -1,5 +1,5 @@
 import { Input } from '@/components/input'
-import React from 'react'
+import React, { useState } from 'react'
 import { Image, Text, View } from 'react-native'
 import {
   MapPin,
@@ -11,7 +11,22 @@ import {
 import { colors } from '@/styles/colors'
 import { Button } from '@/components/button'
 
+enum StepForm {
+  TRIP_DETAILS = 1,
+  ADD_EMAIL = 2,
+}
+
 const Index: React.FC = () => {
+  const [stepForm, setStepForm] = useState(StepForm.TRIP_DETAILS)
+
+  function handleNextStepForm() {
+    if (stepForm === StepForm.TRIP_DETAILS) {
+      return setStepForm(StepForm.ADD_EMAIL)
+    }
+
+    setStepForm(StepForm.TRIP_DETAILS)
+  }
+
   return (
     <View className="flex-1 items-center justify-center px-5">
       <Image
@@ -21,6 +36,12 @@ const Index: React.FC = () => {
         alt="Logo"
       />
 
+      <Image
+        source={require('@/assets/bg.png')}
+        className="absolute"
+        alt="Imagem de fundo"
+      />
+
       <Text className="text-zinc-400 font-regular text-center text-lg mt-3">
         Convide seus amigos e planeje sua{'\n'} próxima viagem
       </Text>
@@ -28,28 +49,42 @@ const Index: React.FC = () => {
       <View className="w-full bg-zinc-900 p-4 rounded-xl my-8 border border-zinc-800">
         <Input>
           <MapPin color={colors.zinc[400]} size={20} />
-          <Input.Field placeholder="Para onde?" />
+          <Input.Field
+            placeholder="Para onde?"
+            editable={stepForm === StepForm.TRIP_DETAILS}
+          />
         </Input>
 
         <Input>
           <IconCalendar color={colors.zinc[400]} size={20} />
-          <Input.Field placeholder="Quando?" />
+          <Input.Field
+            placeholder="Quando?"
+            editable={stepForm === StepForm.TRIP_DETAILS}
+          />
         </Input>
 
-        <View className="border-b py-3 border-zinc-800">
-          <Button variant="secondary">
-            <Button.Title>Alterar local/data</Button.Title>
-            <Settings2 color={colors.zinc[200]} size={20} />
-          </Button>
-        </View>
+        {stepForm === StepForm.ADD_EMAIL && (
+          <>
+            <View className="border-b py-3 border-zinc-800">
+              <Button variant="secondary">
+                <Button.Title>Alterar local/data</Button.Title>
+                <Settings2 color={colors.zinc[200]} size={20} />
+              </Button>
+            </View>
 
-        <Input>
-          <UserRoundPlus color={colors.zinc[400]} size={20} />
-          <Input.Field placeholder="Quem estará na viagem?" />
-        </Input>
+            <Input>
+              <UserRoundPlus color={colors.zinc[400]} size={20} />
+              <Input.Field placeholder="Quem estará na viagem?" />
+            </Input>
+          </>
+        )}
 
-        <Button>
-          <Button.Title>Continuar</Button.Title>
+        <Button onPress={handleNextStepForm}>
+          <Button.Title>
+            {stepForm === StepForm.TRIP_DETAILS
+              ? 'Continuar'
+              : 'Confirmar Viagem'}
+          </Button.Title>
           <ArrowRight color={colors.lime[950]} size={20} />
         </Button>
       </View>
