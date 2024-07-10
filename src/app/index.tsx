@@ -3,7 +3,7 @@ import { Text, View } from 'react-native'
 
 const Index: React.FC = () => {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <View className="flex-1 items-center justify-center">
       <Text>Hello Planner</Text>
     </View>
   )
