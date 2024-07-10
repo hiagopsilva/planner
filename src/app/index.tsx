@@ -1,8 +1,12 @@
 import React from 'react'
-import { View } from 'react-native'
+import { Text, View } from 'react-native'
 
-const App: React.FC = () => {
-  return <View />
+const Index: React.FC = () => {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Hello Planner</Text>
+    </View>
+  )
 }
 
-export default App
+export default Index
