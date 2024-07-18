@@ -10,7 +10,6 @@ import {
 } from 'react-native'
 
 type InputProps = ViewProps & {
-  children: React.ReactNode
   variant?: 'primary' | 'secondary' | 'tertiary'
 }
 
