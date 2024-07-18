@@ -18,6 +18,9 @@ import { DateData } from 'react-native-calendars'
 import dayjs from 'dayjs'
 import { GuestEmail } from '@/components/email'
 import { validateInput } from '@/utils/validateInput'
+import { tripStorage } from '@/storage/trip'
+import { router } from 'expo-router'
+import { tripServer } from '@/server/trip-server'
 
 enum StepForm {
   TRIP_DETAILS = 1,
@@ -37,6 +40,7 @@ const Index: React.FC = () => {
   const [destination, setDestination] = useState('')
   const [emailToInvite, setEmailToInvite] = useState('')
   const [emailsToInvite, setEmailsToInvite] = useState<string[]>([])
+  const [isCreatingTrip, setIsCreatingTrip] = useState(false)
 
   function handleNextStepForm() {
     if (
@@ -61,7 +65,16 @@ const Index: React.FC = () => {
       return setStepForm(StepForm.ADD_EMAIL)
     }
 
-    setStepForm(StepForm.TRIP_DETAILS)
+    Alert.alert('Nova viagem', 'Confirmar viagem?', [
+      {
+        text: 'Não',
+        style: 'cancel',
+      },
+      {
+        text: 'Sim',
+        onPress: createTrip,
+      },
+    ])
   }
 
   function handleSelectDate(selectedDay: DateData) {
@@ -95,6 +108,45 @@ const Index: React.FC = () => {
 
     setEmailsToInvite((prevState) => [...prevState, emailToInvite])
     setEmailToInvite('')
+  }
+
+  async function saveTrip(tripId: string) {
+    try {
+      await tripStorage.save(tripId)
+
+      router.navigate('/trip/' + tripId)
+    } catch (error) {
+      Alert.alert(
+        'Salvar viagem',
+        '"Não foi possível salvar o id da viagem no dispositivo.',
+      )
+    }
+  }
+
+  async function createTrip() {
+    try {
+      setIsCreatingTrip(true)
+
+      const newTrip = await tripServer.create({
+        destination,
+        starts_at: dayjs(selectedDates.startsAt?.dateString).toString(),
+        ends_at: dayjs(selectedDates.endsAt?.dateString).toString(),
+        emails_to_invite: emailsToInvite,
+      })
+
+      Alert.alert('Nova viagem', 'Viagem criada com sucesso!', [
+        {
+          text: 'Ok. Continuar.',
+          onPress: () => saveTrip(newTrip.tripId),
+        },
+      ])
+    } catch (error) {
+      Alert.alert(
+        'Nova viagem',
+        'Não foi possível criar a viagem. Tente novamente.',
+      )
+      setIsCreatingTrip(false)
+    }
   }
 
   return (
@@ -170,7 +222,7 @@ const Index: React.FC = () => {
           </>
         )}
 
-        <Button onPress={handleNextStepForm}>
+        <Button onPress={handleNextStepForm} isLoading={isCreatingTrip}>
           <Button.Title>
             {stepForm === StepForm.TRIP_DETAILS
               ? 'Continuar'
