@@ -1,5 +1,5 @@
 import { Input } from '@/components/input'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert, Image, Keyboard, Text, View } from 'react-native'
 import {
   MapPin,
@@ -21,6 +21,7 @@ import { validateInput } from '@/utils/validateInput'
 import { tripStorage } from '@/storage/trip'
 import { router } from 'expo-router'
 import { tripServer } from '@/server/trip-server'
+import Loading from '@/components/loading'
 
 enum StepForm {
   TRIP_DETAILS = 1,
@@ -41,6 +42,7 @@ const Index: React.FC = () => {
   const [emailToInvite, setEmailToInvite] = useState('')
   const [emailsToInvite, setEmailsToInvite] = useState<string[]>([])
   const [isCreatingTrip, setIsCreatingTrip] = useState(false)
+  const [isGettingTrip, setIsGettingTrip] = useState(true)
 
   function handleNextStepForm() {
     if (
@@ -147,6 +149,34 @@ const Index: React.FC = () => {
       )
       setIsCreatingTrip(false)
     }
+  }
+
+  async function getTrip() {
+    try {
+      const tripId = await tripStorage.get()
+
+      if (!tripId) {
+        return setIsGettingTrip(false)
+      }
+
+      const trip = await tripServer.getById(tripId)
+
+      if (trip) {
+        return router.navigate('/trip/' + trip.id)
+      }
+    } catch (error) {
+      setIsGettingTrip(false)
+      console.log(error)
+      Alert.alert('Viagem', 'Não foi possível carregar a viagem salva.')
+    }
+  }
+
+  useEffect(() => {
+    getTrip()
+  }, [])
+
+  if (isGettingTrip) {
+    return <Loading />
   }
 
   return (
