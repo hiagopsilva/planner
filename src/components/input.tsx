@@ -22,7 +22,7 @@ function Input({
   return (
     <View
       className={clsx(
-        'min-h-16 max-h-16 flex-row items-center gap-2',
+        'min-h-16 max-h-16 flex-row items-center gap-2 p-4 rounded',
         {
           'h-14 px-4 rounded-lg border border-zinc-800': variant === 'primary',
           'bg-zinc-950': variant === 'secondary',
