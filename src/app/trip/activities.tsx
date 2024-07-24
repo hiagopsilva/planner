@@ -51,6 +51,7 @@ export function TripActivities({ tripDetails }: Props) {
     setActivityDate('')
     setActivityHour('')
     setActivityTitle('')
+    setShowModal(MODAL.NONE)
   }
 
   async function handleCreateTripActivity() {

@@ -24,6 +24,7 @@ export function Details({ tripId }: { tripId: string }) {
   function resetNewLinkFields() {
     setLinkTitle('')
     setLinkURL('')
+    setShowNewLinkModal(false)
   }
 
   async function handleCreateTripLink() {

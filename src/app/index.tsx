@@ -227,7 +227,10 @@ const Index: React.FC = () => {
         {stepForm === StepForm.ADD_EMAIL && (
           <>
             <View className="border-b py-3 border-zinc-800">
-              <Button variant="secondary">
+              <Button
+                variant="secondary"
+                onPress={() => setStepForm(StepForm.TRIP_DETAILS)}
+              >
                 <Button.Title>Alterar local/data</Button.Title>
                 <Settings2 color={colors.zinc[200]} size={20} />
               </Button>
