@@ -143,6 +143,7 @@ const Index: React.FC = () => {
         },
       ])
     } catch (error) {
+      console.log(error)
       Alert.alert(
         'Nova viagem',
         'Não foi possível criar a viagem. Tente novamente.',
