@@ -44,8 +44,8 @@ const Trip: React.FC = () => {
   const [destination, setDestination] = useState('')
   const [selectedDates, setSelectedDates] = useState({} as DatesSelected)
   const [isUpdatingTrip, setIsUpdatingTrip] = useState(false)
-  const [guestName, setGuestName] = useState('Thiago')
-  const [guestEmail, setGuestEmail] = useState('thiago@gmail.com')
+  const [guestName, setGuestName] = useState('')
+  const [guestEmail, setGuestEmail] = useState('')
   const [isConfirmingAttendance, setIsConfirmingAttendance] = useState(false)
 
   const tripParams = useLocalSearchParams<{
@@ -281,7 +281,7 @@ const Trip: React.FC = () => {
         </View>
       </Modal>
 
-      <Modal title="confirmar presença" visible={true}>
+      <Modal title="confirmar presença" visible={false}>
         <View className="gap-4 mt-4">
           <Text className="text-zinc-400 font-regular leading-6 my-2">
             Você foi convidado (a) para participar de uma viagem para
