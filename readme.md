@@ -5,7 +5,7 @@ App desenvolvido no NLW Journey.
 
 ## Demo
 
-![Captura de Tela do plann.er](./assets/demo.png)
+<img src="./assets/demo.png" width="400px">
 
 ### Ferramentas Utilizadas
 
